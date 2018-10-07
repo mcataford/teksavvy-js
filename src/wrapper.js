@@ -47,7 +47,7 @@ export default class TeksavvyAPIWrapper {
     }
     
   }
-  
+
   _formatResponse = (response, format) => {
     const requestTime = Date.now()
     const datapoints = response.data.value.map(datum => {
@@ -84,7 +84,13 @@ export default class TeksavvyAPIWrapper {
     }
   }
 
-  _isBelowRateLimit = () => this._history.length < this._rateLimit
+  _isBelowRateLimit = () => {
+    if (this._rateLimit == 0) {
+      return true
+    } else {
+      return this._history.length < this._rateLimit
+    }
+  }
 
   usageRecords = () => {
     const format = constants.formats.USAGE_RECORDS

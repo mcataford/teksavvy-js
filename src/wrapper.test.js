@@ -74,6 +74,19 @@ describe('TeksavvyAPIWrapper', () => {
 
       expect(() => rateLimitedWrapper.usageRecords()).toThrow(RateLimitExceededError)
     })
+
+    it('a rate limit of 0 disables the limit', () => {
+      let requests = 0
+
+      const mockRequestLimit = 0
+      const rateLimitedWrapper = new TeksavvyAPIWrapper(mockKey, { rateLimit: mockRequestLimit })
+
+      while (requests++ < 100) {
+        rateLimitedWrapper.usageRecords()
+      }
+
+      expect(() => rateLimitedWrapper.usageRecords()).not.toThrow(RateLimitExceededError)
+    })
   })
 
   describe('Wrapper gets usage summary records', () => {
@@ -113,6 +126,19 @@ describe('TeksavvyAPIWrapper', () => {
       }
 
       expect(() => rateLimitedWrapper.usageSummaries()).toThrow(RateLimitExceededError)
+    })
+
+    it('a rate limit of 0 disables the limit', () => {
+      let requests = 0
+
+      const mockRequestLimit = 0
+      const rateLimitedWrapper = new TeksavvyAPIWrapper(mockKey, { rateLimit: mockRequestLimit })
+
+      while (requests++ < 100) {
+        rateLimitedWrapper.usageSummaries()
+      }
+
+      expect(() => rateLimitedWrapper.usageRecords()).not.toThrow(RateLimitExceededError)
     })
   })
 })
