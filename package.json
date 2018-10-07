@@ -1,0 +1,38 @@
+{
+  "name": "teksavvy-js",
+  "version": "0.0.1",
+  "description": "A wrapper for the Teksavvy ISP API.",
+  "main": "lib/wrapper.js",
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "test": "jest src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcataford/teksavvy-js.git"
+  },
+  "author": "Marc Cataford",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "jest": "^23.6.0",
+    "transform-runtime": "0.0.0"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "stage-2"
+    ],
+    "plugins": [
+      "transform-async-to-generator",
+      "transform-runtime"
+    ]
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
+}
