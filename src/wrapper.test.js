@@ -76,16 +76,21 @@ describe('TeksavvyAPIWrapper', () => {
     })
 
     it('a rate limit of 0 disables the limit', () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
       let requests = 0
+
+      const callCount = 100
 
       const mockRequestLimit = 0
       const rateLimitedWrapper = new TeksavvyAPIWrapper(mockKey, { rateLimit: mockRequestLimit })
 
-      while (requests++ < 100) {
+      while (requests++ < callCount) {
         rateLimitedWrapper.usageRecords()
       }
 
       expect(() => rateLimitedWrapper.usageRecords()).not.toThrow(RateLimitExceededError)
+      expect(consoleSpy)
+        .toHaveBeenNthCalledWith(callCount + 1, 'WARN: Rate limiting is turned off.')
     })
   })
 
@@ -129,16 +134,20 @@ describe('TeksavvyAPIWrapper', () => {
     })
 
     it('a rate limit of 0 disables the limit', () => {
+      const consoleSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
       let requests = 0
+      const callCount = 100
 
       const mockRequestLimit = 0
       const rateLimitedWrapper = new TeksavvyAPIWrapper(mockKey, { rateLimit: mockRequestLimit })
 
-      while (requests++ < 100) {
+      while (requests++ < callCount) {
         rateLimitedWrapper.usageSummaries()
       }
 
       expect(() => rateLimitedWrapper.usageRecords()).not.toThrow(RateLimitExceededError)
+      expect(consoleSpy)
+        .toHaveBeenNthCalledWith(callCount + 1, 'WARN: Rate limiting is turned off.')
     })
   })
 })

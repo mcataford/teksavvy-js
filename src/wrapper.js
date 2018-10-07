@@ -86,6 +86,7 @@ export default class TeksavvyAPIWrapper {
 
   _isBelowRateLimit = () => {
     if (this._rateLimit == 0) {
+      console.warn('WARN: Rate limiting is turned off.')
       return true
     } else {
       return this._history.length < this._rateLimit
