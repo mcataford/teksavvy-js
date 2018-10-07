@@ -4,3 +4,10 @@ export class RateLimitExceededError extends Error {
     this.name = 'RateLimitExceededError'
   }
 }
+
+export class MissingAPIKeyError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = 'MissingAPIKeyError'
+  }
+}

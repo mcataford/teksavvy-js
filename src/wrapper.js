@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import {
   RateLimitExceededError,
+  MissingAPIKeyError,
 } from './Exceptions'
 
 import constants from './constants'
@@ -17,6 +18,10 @@ export default class TeksavvyAPIWrapper {
   }
 
   _getDefaultHeaders = () => {
+    if (!this._key) {
+      throw new MissingAPIKeyError()
+    }
+
     return ({
       'Teksavvy-APIKey': this._key,
     })

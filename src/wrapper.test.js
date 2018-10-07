@@ -8,7 +8,7 @@ import {
 import constants from './constants'
 
 import TeksavvyAPIWrapper from './wrapper'
-import { RateLimitExceededError } from './Exceptions';
+import { RateLimitExceededError, MissingAPIKeyError, } from './Exceptions';
 
 describe('TeksavvyAPIWrapper', () => {
   const mockKey = 'ABCDE'
@@ -27,6 +27,12 @@ describe('TeksavvyAPIWrapper', () => {
       }
 
       expect(headers).toEqual(expectedHeaders)
+    })
+
+    it('throws an MissingAPIKeyError is the defaults headers are generated without an API key', () => {
+      const wrapper = new TeksavvyAPIWrapper()
+      
+      expect(() => wrapper._getDefaultHeaders()).toThrow(MissingAPIKeyError)
     })
   })
 
