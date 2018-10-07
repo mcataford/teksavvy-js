@@ -38,9 +38,16 @@ export default class TeksavvyAPIWrapper {
   _updateHistory = stamp => {
     const threshold = Date.now() - 60000
     this._history = this._history.filter(historyStamp => historyStamp >= threshold)
-    this._history.push(stamp)
-  }
 
+    if (this._isBelowRateLimit()) {
+      this._history.push(stamp)
+      return true
+    } else {
+      return false
+    }
+    
+  }
+  
   _formatResponse = (response, format) => {
     const requestTime = Date.now()
     const datapoints = response.data.value.map(datum => {
@@ -85,11 +92,9 @@ export default class TeksavvyAPIWrapper {
     const headers = this._getDefaultHeaders()
     const requestTime = Date.now()
 
-    if (!this._isBelowRateLimit()) {
+    if (!this._updateHistory(requestTime)) {
       throw new RateLimitExceededError(`Limit of ${this._rateLimit} per minute reached.`)
     }
-
-    this._updateHistory(requestTime)
 
     return axios.get(url, { headers })
         .then(response => {
@@ -109,11 +114,9 @@ export default class TeksavvyAPIWrapper {
     const headers = this._getDefaultHeaders()
     const requestTime = Date.now()
 
-    if (!this._isBelowRateLimit()) {
+    if (!this._updateHistory(requestTime)) {
       throw new RateLimitExceededError(`Limit of ${this._rateLimit} per minute reached.`)
     }
-
-    this._updateHistory(requestTime)
 
     return axios.get(url, { headers })
         .then(response => {
