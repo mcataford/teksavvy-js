@@ -13,7 +13,23 @@ const formats = {
   USAGE_SUMMARY: FORMAT_USAGE_SUMMARY,
 }
 
+const OPERATOR_FILTER = '$filter'
+const OPERATOR_ORDERBY = '$orderby'
+const OPERATOR_TOP = '$top'
+const OPERATOR_COUNT = '$inlinecount'
+const OPERATOR_SKIP = '$skip'
+const OPERATOR_SELECT = '$select'
+const filters = {
+  FILTER: OPERATOR_FILTER,
+  ORDERBY: OPERATOR_ORDERBY,
+  TOP: OPERATOR_TOP,
+  COUNT: OPERATOR_COUNT,
+  SKIP: OPERATOR_SKIP,
+  SELECT: OPERATOR_SELECT,
+}
+
 export default {
   urls,
   formats,
+  filters,
 }
