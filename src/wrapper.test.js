@@ -8,6 +8,7 @@ import {
 import constants from './constants'
 
 import TeksavvyAPIWrapper from './wrapper'
+import { RateLimitExceededError } from './Exceptions';
 
 describe('TeksavvyAPIWrapper', () => {
   const mockKey = 'ABCDE'
@@ -54,6 +55,19 @@ describe('TeksavvyAPIWrapper', () => {
         headers: expectedHeaders,
       })
     })
+
+    it('usageRecords cannot make requests that would exceed the rate limit', () => {
+      let requests = 0
+
+      const mockRequestLimit = 5
+      const rateLimitedWrapper = new TeksavvyAPIWrapper(mockKey, { rateLimit: mockRequestLimit })
+
+      while (requests++ < mockRequestLimit) {
+        rateLimitedWrapper.usageSummaries()
+      }
+
+      expect(() => rateLimitedWrapper.usageRecords()).toThrow(RateLimitExceededError)
+    })
   })
 
   describe('Wrapper gets usage summary records', () => {
@@ -80,6 +94,19 @@ describe('TeksavvyAPIWrapper', () => {
       expect(axiosSpy).toHaveBeenCalledWith(expectedURL, {
         headers: expectedHeaders,
       })
+    })
+
+    it('usageSummaries cannot make requests that would exceed the rate limit', () => {
+      let requests = 0
+
+      const mockRequestLimit = 5
+      const rateLimitedWrapper = new TeksavvyAPIWrapper(mockKey, { rateLimit: mockRequestLimit })
+
+      while (requests++ < mockRequestLimit) {
+        rateLimitedWrapper.usageSummaries()
+      }
+
+      expect(() => rateLimitedWrapper.usageSummaries()).toThrow(RateLimitExceededError)
     })
   })
 })
