@@ -11,3 +11,10 @@ export class MissingAPIKeyError extends Error {
     this.name = 'MissingAPIKeyError'
   }
 }
+
+export class UnsupportedOperatorError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = 'UnsupportedOperatorError'
+  }
+}

@@ -3,6 +3,7 @@ import axios from 'axios'
 import {
   RateLimitExceededError,
   MissingAPIKeyError,
+  UnsupportedOperatorError,
 } from './Exceptions'
 
 import constants from './constants'
@@ -45,7 +46,35 @@ export default class TeksavvyAPIWrapper {
     } else {
       return false
     }
-    
+  }
+
+  _buildOperatorParam = operatorObj => {
+    const params = {}
+
+    Object.keys(operatorObj).forEach(operator => {
+      const operatorName = operator.name
+      
+      if (!constants.supportedOperators.includes(operatorName)) {
+        throw new UnsupportedOperatorError(`${operatorName} is not supported.`)
+      }
+
+      if (operatorName === constants.operatorIdentifiers.TOP) {
+        if (operator.value <= 0) {
+          throw new RangeError('Operator TOP must be strictly positive')
+        }
+        params[constants.operators.TOP] = operator.value
+      } else if (operatorName === constants.operatorIdentifiers.COUNT) {
+        params[constants.operators.COUNT] = 'allpages' 
+      } else if (operatorName === constants.operatorIdentifiers.SKIP) {
+        if (operator.value <= 0) {
+          throw new RangeError('Operator SKIP must be positive or zero')
+        }
+
+        params[constants.operators.SKIP] = operator.value
+      }
+    })
+
+    return params
   }
 
   _formatResponse = (response, format) => {
@@ -93,17 +122,18 @@ export default class TeksavvyAPIWrapper {
     }
   }
 
-  usageRecords = () => {
+  usageRecords = (operator = {}) => {
     const format = constants.formats.USAGE_RECORDS
     const url = this._getTargetURL(format)
     const headers = this._getDefaultHeaders()
     const requestTime = Date.now()
+    const params = operator ? this._buildOperatorParam(operator) : null
 
     if (!this._updateHistory(requestTime)) {
       throw new RateLimitExceededError(`Limit of ${this._rateLimit} per minute reached.`)
     }
 
-    return axios.get(url, { headers })
+    return axios.get(url, { headers, params })
         .then(response => {
           this._lastRequest = requestTime
           this._requestCount++
@@ -115,17 +145,18 @@ export default class TeksavvyAPIWrapper {
         })
   }
 
-  usageSummaries = () => {
+  usageSummaries = (operator = {}) => {
     const format = constants.formats.USAGE_SUMMARY
     const url = this._getTargetURL(format)
     const headers = this._getDefaultHeaders()
     const requestTime = Date.now()
+    const params = operator ? this._buildOperatorParam(operator) : null
 
     if (!this._updateHistory(requestTime)) {
       throw new RateLimitExceededError(`Limit of ${this._rateLimit} per minute reached.`)
     }
 
-    return axios.get(url, { headers })
+    return axios.get(url, { headers, params })
         .then(response => {
           this._lastRequest = requestTime
           this._requestCount++

@@ -5,7 +5,8 @@
   "main": "lib/wrapper.js",
   "scripts": {
     "build": "babel src --out-dir lib",
-    "test": "jest src"
+    "test": "jest src",
+    "try": "node lib/try.js"
   },
   "repository": {
     "type": "git",

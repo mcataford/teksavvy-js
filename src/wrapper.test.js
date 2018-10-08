@@ -59,6 +59,7 @@ describe('TeksavvyAPIWrapper', () => {
 
       expect(axiosSpy).toHaveBeenCalledWith(expectedURL, {
         headers: expectedHeaders,
+        params: {},
       })
     })
 
@@ -117,6 +118,7 @@ describe('TeksavvyAPIWrapper', () => {
 
       expect(axiosSpy).toHaveBeenCalledWith(expectedURL, {
         headers: expectedHeaders,
+        params: {},
       })
     })
 

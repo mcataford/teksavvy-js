@@ -19,7 +19,7 @@ const OPERATOR_TOP = '$top'
 const OPERATOR_COUNT = '$inlinecount'
 const OPERATOR_SKIP = '$skip'
 const OPERATOR_SELECT = '$select'
-const filters = {
+const operators = {
   FILTER: OPERATOR_FILTER,
   ORDERBY: OPERATOR_ORDERBY,
   TOP: OPERATOR_TOP,
@@ -27,9 +27,23 @@ const filters = {
   SKIP: OPERATOR_SKIP,
   SELECT: OPERATOR_SELECT,
 }
+const operatorIdentifiers = {
+  FILTER: 'filter',
+  ORDERBY: 'orderby',
+  TOP: 'top',
+  COUNT: 'count',
+  SKIP: 'skip',
+  SELECT: 'select',
+}
+
+const supportedOperators = [
+  'top', 'count', 'skip',
+]
 
 export default {
   urls,
   formats,
-  filters,
+  operators,
+  operatorIdentifiers,
+  supportedOperators,
 }
