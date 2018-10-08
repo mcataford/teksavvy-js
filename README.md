@@ -1,6 +1,12 @@
 # teksavvy-js
 A JS wrapper for the Teksavvy API
 
+## Why?
+
+Teksavvy is one of the few ISPs offering a public API that can be used to query usage data. However, no official documentation seems to exist online for it, making the use of the API a bit of a pain. This API wrapper seeks to solve the issue of having to chase scarce and user-contributed API documentation to build software on top of the Teksavvy API.
+
+The main source of truth on the API at the moment is [this short document found on DSLReport](http://www.dslreports.com/r0/download/2281960~426c08ab0e405af5a3a2b956402e011c/TekSavvy_Internet_Usage_Web_API_URIs.pdf).
+
 ## Getting started
 
 To use this wrapper, you will need to generate an API key for your Teksavvy account. This can be done through the customer portal.
