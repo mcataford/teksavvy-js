@@ -29,7 +29,9 @@ The API methods will return Promises that can be handled however you want using 
 
 ## API methods
 
-### `usageRecords()`
+### `usageRecords([operators = {}])`
+
+See the __Query Operators__ section for details on how to use the `operators` parameter.
 
 #### Output format
 
@@ -58,6 +60,8 @@ The API methods will return Promises that can be handled however you want using 
 |`offPeak`|decimal|See prev.|
 
 ### `usageSummaries()`
+
+See the __Query Operators__ section for details on how to use the `operators` parameter.
 
 ```
 {
@@ -94,3 +98,19 @@ The API wrapper includes a rate limiting feature which can be set using the `rat
 Any request that would exceed the preset per-minute request limit will throw a `RateLimitExceededError` and will not be sent nor queued.
 
 By default, the rate limit is set to `30`, as it is the limit set by the Teksavvy API documentation.
+
+## Query operators
+
+The wrapper supports OData query operators that are accepted by the Teksavvy API. You can use them by passing an object to the `usageSummaries` and `usageRecords` functions.
+
+|Key|Corresponding OData operator|Description|Valid values|
+|---|---|---|---|
+|`top`|`$top`|Queries the first N values of the set|Integers > 0|
+|`skip`|`$skip`|Skips the first N values of the set, query starts at the N+1th|Integers > 0|
+|`count`|`$inlinecount`|Adds a count of the returned items to the response|Boolean|
+|`select`|`$select`|Not supported yet|-|
+|`orderby`|`$orderby`|Not supported yet|-|
+|`filter`|`$filter`|Not supported yet|-|
+|-|`$expand`|Unsupported by Teksavvy|-|
+|-|`$any`|Unsupported by Teksavvy|-|
+|-|`$all`|Unsupported by Teksavvy|-|
