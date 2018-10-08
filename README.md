@@ -59,7 +59,7 @@ See the __Query Operators__ section for details on how to use the `operators` pa
 |`onPeak`|decimal|See prev.|
 |`offPeak`|decimal|See prev.|
 
-### `usageSummaries()`
+### `usageSummaries([operators = {}])`
 
 See the __Query Operators__ section for details on how to use the `operators` parameter.
 
