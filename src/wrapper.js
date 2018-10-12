@@ -79,6 +79,7 @@ export default class TeksavvyAPIWrapper {
   }
 
   _formatResponse = (response, format) => {
+    const totalCount = response.data['odata.count'] 
     const requestTime = Date.now()
     const datapoints = response.data.value.map(datum => {
       const commonProps = {
@@ -108,10 +109,14 @@ export default class TeksavvyAPIWrapper {
       }
     })
 
-    return {
+    const formattedResults = {
       requestTime,
       datapoints,
     }
+
+    if (totalCount) formattedResults.totalCount = totalCount
+
+    return formattedResults
   }
 
   _isBelowRateLimit = () => {
