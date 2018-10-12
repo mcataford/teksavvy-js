@@ -52,25 +52,26 @@ export default class TeksavvyAPIWrapper {
     const params = {}
 
     Object.keys(operatorObj).forEach(operator => {
-      const operatorName = operator.name
-      
-      if (!constants.supportedOperators.includes(operatorName)) {
-        throw new UnsupportedOperatorError(`${operatorName} is not supported.`)
+      const operatorValue = operatorObj[operator]
+
+      if (!constants.supportedOperators.includes(operator)) {
+        throw new UnsupportedOperatorError(`${operator} is not supported.`)
       }
 
-      if (operatorName === constants.operatorIdentifiers.TOP) {
-        if (operator.value <= 0) {
+      if (operator === constants.operatorIdentifiers.TOP) {
+        if (operatorValue <= 0) {
           throw new RangeError('Operator TOP must be strictly positive')
         }
-        params[constants.operators.TOP] = operator.value
-      } else if (operatorName === constants.operatorIdentifiers.COUNT) {
-        params[constants.operators.COUNT] = 'allpages' 
-      } else if (operatorName === constants.operatorIdentifiers.SKIP) {
-        if (operator.value <= 0) {
+        params[constants.operators.TOP] = operatorValue
+      } else if (operator === constants.operatorIdentifiers.COUNT) {
+        if (operatorValue) {
+          params[constants.operators.COUNT] = 'allpages'
+        }
+      } else if (operator === constants.operatorIdentifiers.SKIP) {
+        if (operatorValue < 0) {
           throw new RangeError('Operator SKIP must be positive or zero')
         }
-
-        params[constants.operators.SKIP] = operator.value
+        params[constants.operators.SKIP] = operatorValue
       }
     })
 
