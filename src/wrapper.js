@@ -1,9 +1,12 @@
 import axios from 'axios'
 
 import {
-  RateLimitExceededError,
+  InvalidKeyError,
   MissingAPIKeyError,
+  RateLimitExceededError,
+  UnsupportedComparatorError,
   UnsupportedOperatorError,
+  MalformedFilterParameters,
 } from './Exceptions'
 
 import constants from './constants'
@@ -72,10 +75,41 @@ export default class TeksavvyAPIWrapper {
           throw new RangeError('Operator SKIP must be positive or zero')
         }
         params[constants.operators.SKIP] = operatorValue
+      } else if (operator === constants.operatorIdentifiers.FILTER) {
+        params[constants.operators.FILTER] = this._composeFilterQuery(operatorValue)
       }
     })
 
     return params
+  }
+
+  _composeFilterQuery = filters => {
+    if (filters instanceof String) return filters
+    else if (filters instanceof Array) {
+      if (filters.length == 0) return
+
+      const filterSegments = filters.map(filter => {
+        const comparator = filter.compare
+        const key = filter.key
+        const value = filter.value
+
+        if (!constants.supportedFilterComparators.includes(comparator)) {
+          throw new UnsupportedComparatorError(`${comparator} is not a supported comparison operator`)
+        }
+
+        if (!Object.keys(constants.allowedCompareKeysMap).includes(key)) {
+          throw new InvalidKeyError(`${key} is not a valid key to filter on`)
+        }
+
+        const mappedKey = constants.allowedCompareKeysMap[key]
+        const mappedComparator = constants.filterComparatorMap[comparator]
+        return `${mappedKey} ${mappedComparator} ${value}`
+      })
+
+      return filterSegments.join(' and ')
+    } else {
+      throw new MalformedFilterParameters('Filter parameter must be a string or array')
+    }
   }
 
   _formatResponse = (response, format) => {

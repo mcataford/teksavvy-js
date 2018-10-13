@@ -37,8 +37,20 @@ const operatorIdentifiers = {
 }
 
 const supportedOperators = [
-  'top', 'count', 'skip',
+  'top', 'count', 'skip', 'filter'
 ]
+
+const supportedFilterComparators = [
+  '=',
+]
+
+const filterComparatorMap = {
+  '=': 'eq',
+}
+
+const allowedCompareKeysMap = {
+  'isCurrent': 'IsCurrent',
+}
 
 export default {
   urls,
@@ -46,4 +58,7 @@ export default {
   operators,
   operatorIdentifiers,
   supportedOperators,
+  supportedFilterComparators,
+  filterComparatorMap,
+  allowedCompareKeysMap,
 }

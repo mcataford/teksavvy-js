@@ -18,3 +18,24 @@ export class UnsupportedOperatorError extends Error {
     this.name = 'UnsupportedOperatorError'
   }
 }
+
+export class UnsupportedComparatorError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = 'UnsupportedComparatorError'
+  }
+}
+
+export class InvalidKeyError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = 'InvalidKeyError'
+  }
+}
+
+export class MalformedFilterParameters extends Error {
+  constructor(message) {
+  super(message)
+  this.name = 'MalformedFilterParameters'
+}
+}
