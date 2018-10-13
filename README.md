@@ -110,7 +110,22 @@ The wrapper supports OData query operators that are accepted by the Teksavvy API
 |`count`|`$inlinecount`|Adds a count of the returned items to the response|Boolean|
 |`select`|`$select`|Not supported yet|-|
 |`orderby`|`$orderby`|Not supported yet|-|
-|`filter`|`$filter`|Not supported yet|-|
+|`filter`|`$filter`|(very) alpha support|Array of query objects|
 |-|`$expand`|Unsupported by Teksavvy|-|
 |-|`$any`|Unsupported by Teksavvy|-|
 |-|`$all`|Unsupported by Teksavvy|-|
+
+### Filter query objects
+
+The current format of filter query parameters is an array of objects containing a `key` corresponding to one of the elements of the formatted result object, a reference `value` and a comparison operator `compare`.
+
+```
+[
+  {
+    key: ...,
+    value: ...,
+    compare: ...,
+  },
+  ...
+]
+```
