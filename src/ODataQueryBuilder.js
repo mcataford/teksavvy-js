@@ -15,10 +15,6 @@ export default class ODataQueryBuilder {
     Object.keys(operatorObj).forEach(operator => {
       const operatorValue = operatorObj[operator]
 
-      if (!constants.supportedOperators.includes(operator)) {
-        throw new UnsupportedOperatorError(`${operator} is not supported.`)
-      }
-
       if (this._isTop(operator)) {
         if (operatorValue <= 0) {
           throw new RangeError('Operator TOP must be strictly positive')
@@ -35,6 +31,14 @@ export default class ODataQueryBuilder {
         params[constants.operators.SKIP] = operatorValue
       } else if (this._isFilter(operator)) {
         params[constants.operators.FILTER] = this._formatFilters(operatorValue)
+      } else if(this._isOrderBy(operator)) {
+        if (this._isValidKey(operatorValue)) {
+          params[constants.operators.ORDERBY] = operatorValue
+        } else {
+          throw new InvalidKeyError(`${operatorValue} is not a valid key`)
+        }
+      } else {
+        throw new UnsupportedOperatorError(`${operator} is not supported.`)
       }
     })
 
@@ -49,11 +53,16 @@ export default class ODataQueryBuilder {
 
   _isFilter = operator => operator === constants.operatorIdentifiers.FILTER
 
+  _isOrderBy = operator => operator === constants.operatorIdentifiers.ORDERBY
+
   _isFreeFormFilter = filters => filters instanceof String
+
+  _isValidKey = key => constants.APIResponseKeys.includes(key)
 
   _formatFilters = filters => {
     if (this._isFreeFormFilter(filters)) {
       return filters
+
     } else if (filters instanceof Array) {
       if (filters.length == 0) return
 

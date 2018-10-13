@@ -49,6 +49,7 @@ const APIResponseKeys = [
   'OffPeakDownload',
   'OnPeakUpload',
   'OffPeakUpload',
+  'OID',
 ]
 
 export default {
