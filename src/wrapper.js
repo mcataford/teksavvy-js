@@ -1,20 +1,19 @@
 import axios from 'axios'
 
 import {
-  InvalidKeyError,
   MissingAPIKeyError,
   RateLimitExceededError,
-  UnsupportedComparatorError,
   UnsupportedOperatorError,
-  MalformedFilterParameters,
 } from './Exceptions'
+
+import QueryBuilder from './ODataQueryBuilder'
 
 import constants from './constants'
 
 export default class TeksavvyAPIWrapper {
   constructor(apiKey, options = {}) {
     this._key = apiKey
-
+    this._queryBuilder = new QueryBuilder()
     this._requestCount = 0
     this._lastRequest = null
     this._rateLimit = options.hasOwnProperty('rateLimit') ? options.rateLimit : 30
@@ -48,67 +47,6 @@ export default class TeksavvyAPIWrapper {
       return true
     } else {
       return false
-    }
-  }
-
-  _buildOperatorParam = operatorObj => {
-    const params = {}
-
-    Object.keys(operatorObj).forEach(operator => {
-      const operatorValue = operatorObj[operator]
-
-      if (!constants.supportedOperators.includes(operator)) {
-        throw new UnsupportedOperatorError(`${operator} is not supported.`)
-      }
-
-      if (operator === constants.operatorIdentifiers.TOP) {
-        if (operatorValue <= 0) {
-          throw new RangeError('Operator TOP must be strictly positive')
-        }
-        params[constants.operators.TOP] = operatorValue
-      } else if (operator === constants.operatorIdentifiers.COUNT) {
-        if (operatorValue) {
-          params[constants.operators.COUNT] = 'allpages'
-        }
-      } else if (operator === constants.operatorIdentifiers.SKIP) {
-        if (operatorValue < 0) {
-          throw new RangeError('Operator SKIP must be positive or zero')
-        }
-        params[constants.operators.SKIP] = operatorValue
-      } else if (operator === constants.operatorIdentifiers.FILTER) {
-        params[constants.operators.FILTER] = this._composeFilterQuery(operatorValue)
-      }
-    })
-
-    return params
-  }
-
-  _composeFilterQuery = filters => {
-    if (filters instanceof String) return filters
-    else if (filters instanceof Array) {
-      if (filters.length == 0) return
-
-      const filterSegments = filters.map(filter => {
-        const comparator = filter.compare
-        const key = filter.key
-        const value = filter.value
-
-        if (!constants.supportedFilterComparators.includes(comparator)) {
-          throw new UnsupportedComparatorError(`${comparator} is not a supported comparison operator`)
-        }
-
-        if (!Object.keys(constants.allowedCompareKeysMap).includes(key)) {
-          throw new InvalidKeyError(`${key} is not a valid key to filter on`)
-        }
-
-        const mappedKey = constants.allowedCompareKeysMap[key]
-        const mappedComparator = constants.filterComparatorMap[comparator]
-        return `${mappedKey} ${mappedComparator} ${value}`
-      })
-
-      return filterSegments.join(' and ')
-    } else {
-      throw new MalformedFilterParameters('Filter parameter must be a string or array')
     }
   }
 
@@ -167,7 +105,7 @@ export default class TeksavvyAPIWrapper {
     const url = this._getTargetURL(format)
     const headers = this._getDefaultHeaders()
     const requestTime = Date.now()
-    const params = operator ? this._buildOperatorParam(operator) : null
+    const params = operator ? this._queryBuilder.compose(operator) : null
 
     if (!this._updateHistory(requestTime)) {
       throw new RateLimitExceededError(`Limit of ${this._rateLimit} per minute reached.`)
@@ -190,7 +128,7 @@ export default class TeksavvyAPIWrapper {
     const url = this._getTargetURL(format)
     const headers = this._getDefaultHeaders()
     const requestTime = Date.now()
-    const params = operator ? this._buildOperatorParam(operator) : null
+    const params = operator ? this._queryBuilder.compose(operator) : null
 
     if (!this._updateHistory(requestTime)) {
       throw new RateLimitExceededError(`Limit of ${this._rateLimit} per minute reached.`)
