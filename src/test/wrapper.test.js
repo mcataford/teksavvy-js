@@ -3,7 +3,7 @@ import axios from 'axios'
 import {
   mockUsageRecords,
   mockUsageSummaryRecords,
-} from '../mockAPIResponses'
+} from './mock/mockAPIResponses'
 
 import constants from '../constants/wrapperConstants'
 

@@ -4,7 +4,7 @@
   "description": "A wrapper for the Teksavvy ISP API.",
   "main": "lib/wrapper.js",
   "scripts": {
-    "build": "babel src --out-dir lib",
+    "build": "babel src --out-dir lib --ignore test",
     "test": "jest src",
     "pre-commit": "npm run test && npm run build && git status"
   },
@@ -25,9 +25,6 @@
     "transform-runtime": "0.0.0"
   },
   "babel": {
-    "ignore": [
-      "**/*.test.js"
-    ],
     "presets": [
       "env",
       "stage-2"
