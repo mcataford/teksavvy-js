@@ -3,6 +3,7 @@ import axios from 'axios'
 import {
   MissingAPIKeyError,
   RateLimitExceededError,
+  BadRequestError,
 } from './Exceptions'
 
 import QueryBuilder from './ODataQueryBuilder'
@@ -111,6 +112,9 @@ export default class TeksavvyAPIWrapper {
     }
 
     return axios.get(url, { headers, params })
+        .catch(err => {
+          return Promise.reject(err.response.statusText)
+        })
         .then(response => {
           this._lastRequest = requestTime
           this._requestCount++
@@ -134,6 +138,9 @@ export default class TeksavvyAPIWrapper {
     }
 
     return axios.get(url, { headers, params })
+        .catch(err => {
+          return Promise.reject(err.response.statusText)
+        })
         .then(response => {
           this._lastRequest = requestTime
           this._requestCount++

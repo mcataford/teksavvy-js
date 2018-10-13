@@ -40,8 +40,8 @@ export class InvalidKeyError extends Error {
 
 export class MalformedFilterParameters extends Error {
   constructor(message) {
-  super(message)
+    super(message)
     this.message = message
-  this.name = 'MalformedFilterParameters'
-}
+    this.name = 'MalformedFilterParameters'
+  }
 }
