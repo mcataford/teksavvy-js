@@ -109,11 +109,15 @@ The wrapper supports OData query operators that are accepted by the Teksavvy API
 |`skip`|`$skip`|Skips the first N values of the set, query starts at the N+1th|Integers > 0|
 |`count`|`$inlinecount`|Adds a count of the returned items to the response|Boolean|
 |`select`|`$select`|Not supported yet|-|
-|`orderby`|`$orderby`|Not supported yet|-|
+|`orderby`|`$orderby`|Basic support*|-|
 |`filter`|`$filter`|(very) alpha support|Array of query objects|
 |-|`$expand`|Unsupported by Teksavvy|-|
 |-|`$any`|Unsupported by Teksavvy|-|
 |-|`$all`|Unsupported by Teksavvy|-|
+
+### `$orderby` support
+
+Teksavvy doesn't seem to allow the use of `$orderby` with any useful keys, the wrapper allows the requests to be sent anyway while the situation is figured out.
 
 ### Filter query objects
 
