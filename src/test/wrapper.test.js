@@ -11,8 +11,7 @@ import TeksavvyAPIWrapper from '../wrapper'
 import {
   RateLimitExceededError,
   MissingAPIKeyError,
-  UnsupportedOperatorError,
-} from '../Exceptions';
+} from '../Exceptions'
 
 describe('TeksavvyAPIWrapper', () => {
   const mockKey = 'ABCDE'
