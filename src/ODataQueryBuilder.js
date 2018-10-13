@@ -6,10 +6,9 @@ import {
   MalformedFilterParameters,
 } from './Exceptions'
 
-import constants from './constants'
+import constants from './constants/queryBuilderConstants'
 
 export default class ODataQueryBuilder {
-
   compose = operatorObj => {
     const params = {}
 
@@ -20,21 +19,21 @@ export default class ODataQueryBuilder {
         throw new UnsupportedOperatorError(`${operator} is not supported.`)
       }
 
-      if (operator === constants.operatorIdentifiers.TOP) {
+      if (this._isTop(operator)) {
         if (operatorValue <= 0) {
           throw new RangeError('Operator TOP must be strictly positive')
         }
         params[constants.operators.TOP] = operatorValue
-      } else if (operator === constants.operatorIdentifiers.COUNT) {
+      } else if (this._isCount(operator)) {
         if (operatorValue) {
           params[constants.operators.COUNT] = 'allpages'
         }
-      } else if (operator === constants.operatorIdentifiers.SKIP) {
+      } else if (this._isSkip(operator)) {
         if (operatorValue < 0) {
           throw new RangeError('Operator SKIP must be positive or zero')
         }
         params[constants.operators.SKIP] = operatorValue
-      } else if (operator === constants.operatorIdentifiers.FILTER) {
+      } else if (this._isFilter(operator)) {
         params[constants.operators.FILTER] = this._formatFilters(operatorValue)
       }
     })
@@ -42,9 +41,20 @@ export default class ODataQueryBuilder {
     return params
   }
 
+  _isTop = operator => operator === constants.operatorIdentifiers.TOP
+
+  _isCount = operator => operator === constants.operatorIdentifiers.COUNT
+
+  _isSkip = operator => operator === constants.operatorIdentifiers.SKIP
+
+  _isFilter = operator => operator === constants.operatorIdentifiers.FILTER
+
+  _isFreeFormFilter = filters => filters instanceof String
+
   _formatFilters = filters => {
-    if (filters instanceof String) return filters
-    else if (filters instanceof Array) {
+    if (this._isFreeFormFilter(filters)) {
+      return filters
+    } else if (filters instanceof Array) {
       if (filters.length == 0) return
 
       const filterSegments = filters.map(filter => {

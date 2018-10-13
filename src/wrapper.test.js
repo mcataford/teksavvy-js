@@ -5,7 +5,7 @@ import {
   mockUsageSummaryRecords,
 } from './mockAPIResponses'
 
-import constants from './constants'
+import constants from './constants/wrapperConstants'
 
 import TeksavvyAPIWrapper from './wrapper'
 import {

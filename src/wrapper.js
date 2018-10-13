@@ -7,7 +7,7 @@ import {
 
 import QueryBuilder from './ODataQueryBuilder'
 
-import constants from './constants'
+import constants from './constants/wrapperConstants'
 
 export default class TeksavvyAPIWrapper {
   constructor(apiKey, options = {}) {

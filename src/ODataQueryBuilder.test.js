@@ -1,5 +1,5 @@
 import QueryBuilder from './ODataQueryBuilder'
-import constants from './constants'
+import constants from './constants/queryBuilderConstants'
 import {
   UnsupportedOperatorError,
 } from './Exceptions'
