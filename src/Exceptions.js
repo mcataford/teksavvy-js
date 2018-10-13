@@ -1,6 +1,7 @@
 export class RateLimitExceededError extends Error {
   constructor(message) {
     super(message)
+    this.message = message
     this.name = 'RateLimitExceededError'
   }
 }
@@ -8,6 +9,7 @@ export class RateLimitExceededError extends Error {
 export class MissingAPIKeyError extends Error {
   constructor(message) {
     super(message)
+    this.message = message
     this.name = 'MissingAPIKeyError'
   }
 }
@@ -15,6 +17,7 @@ export class MissingAPIKeyError extends Error {
 export class UnsupportedOperatorError extends Error {
   constructor(message) {
     super(message)
+    this.message = message
     this.name = 'UnsupportedOperatorError'
   }
 }
@@ -22,6 +25,7 @@ export class UnsupportedOperatorError extends Error {
 export class UnsupportedComparatorError extends Error {
   constructor(message) {
     super(message)
+    this.message = message
     this.name = 'UnsupportedComparatorError'
   }
 }
@@ -29,6 +33,7 @@ export class UnsupportedComparatorError extends Error {
 export class InvalidKeyError extends Error {
   constructor(message) {
     super(message)
+    this.message = message
     this.name = 'InvalidKeyError'
   }
 }
@@ -36,6 +41,7 @@ export class InvalidKeyError extends Error {
 export class MalformedFilterParameters extends Error {
   constructor(message) {
   super(message)
+    this.message = message
   this.name = 'MalformedFilterParameters'
 }
 }
