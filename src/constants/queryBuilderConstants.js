@@ -22,7 +22,11 @@ const operatorIdentifiers = {
 }
 
 const supportedOperators = [
-  'top', 'count', 'skip', 'filter'
+  operatorIdentifiers.TOP,
+  operatorIdentifiers.COUNT,
+  operatorIdentifiers.SKIP,
+  operatorIdentifiers.FILTER,
+  operatorIdentifiers.ORDERBY,
 ]
 
 const supportedFilterComparators = [
@@ -37,6 +41,16 @@ const allowedCompareKeysMap = {
   'isCurrent': 'IsCurrent',
 }
 
+const APIResponseKeys = [
+  'IsCurrent',
+  'StartDate',
+  'EndDate',
+  'OnPeakDownload',
+  'OffPeakDownload',
+  'OnPeakUpload',
+  'OffPeakUpload',
+]
+
 export default {
   operators,
   operatorIdentifiers,
@@ -44,4 +58,5 @@ export default {
   supportedFilterComparators,
   filterComparatorMap,
   allowedCompareKeysMap,
+  APIResponseKeys,
 }
