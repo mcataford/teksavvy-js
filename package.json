@@ -25,6 +25,9 @@
     "transform-runtime": "0.0.0"
   },
   "babel": {
+    "ignore": [
+      "**/*.test.js"
+    ],
     "presets": [
       "env",
       "stage-2"

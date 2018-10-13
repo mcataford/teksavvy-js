@@ -3,16 +3,16 @@ import axios from 'axios'
 import {
   mockUsageRecords,
   mockUsageSummaryRecords,
-} from './mockAPIResponses'
+} from '../mockAPIResponses'
 
-import constants from './constants/wrapperConstants'
+import constants from '../constants/wrapperConstants'
 
-import TeksavvyAPIWrapper from './wrapper'
+import TeksavvyAPIWrapper from '../wrapper'
 import {
   RateLimitExceededError,
   MissingAPIKeyError,
   UnsupportedOperatorError,
-} from './Exceptions';
+} from '../Exceptions';
 
 describe('TeksavvyAPIWrapper', () => {
   const mockKey = 'ABCDE'

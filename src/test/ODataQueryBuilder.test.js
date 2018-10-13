@@ -1,8 +1,8 @@
-import QueryBuilder from './ODataQueryBuilder'
-import constants from './constants/queryBuilderConstants'
+import QueryBuilder from '../ODataQueryBuilder'
+import constants from '../constants/queryBuilderConstants'
 import {
   UnsupportedOperatorError,
-} from './Exceptions'
+} from '../Exceptions'
 
 describe('ODataQueryBuilder', () => {
   const queryBuilder = new QueryBuilder()
