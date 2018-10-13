@@ -3,7 +3,6 @@ import axios from 'axios'
 import {
   MissingAPIKeyError,
   RateLimitExceededError,
-  UnsupportedOperatorError,
 } from './Exceptions'
 
 import QueryBuilder from './ODataQueryBuilder'
