@@ -5,9 +5,10 @@ cache: npm
 
 jobs:
   include:
-    - stage: test
+    - stage: test/lint
       script: 
         - npm run test
+        - npm run lint
     - stage: build
       script: npm run build
       script: npx semantic-release
