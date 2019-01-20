@@ -1,4 +1,7 @@
 # teksavvy-js
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/mcataford/teksavvy-js.svg)](https://greenkeeper.io/)
+
 A JS wrapper for the Teksavvy API
 
 ## Why?
