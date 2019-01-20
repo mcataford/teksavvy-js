@@ -10,3 +10,4 @@ jobs:
         - npm run test
     - stage: build
       script: npm run build
+      script: npx semantic-release
