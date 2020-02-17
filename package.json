@@ -31,7 +31,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "jest": "^23.6.0",
     "prettier": "^1.16.0",
-    "semantic-release": "^15.13.3",
+    "semantic-release": "^17.0.4",
     "transform-runtime": "0.0.0"
   },
   "dependencies": {
